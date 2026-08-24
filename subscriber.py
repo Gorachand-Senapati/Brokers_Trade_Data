@@ -1,4 +1,5 @@
 import redis
+import time
 
 redis_client = redis.Redis(
     host="localhost",
@@ -6,11 +7,23 @@ redis_client = redis.Redis(
     decode_responses=True
 )
 
-pubsub = redis_client.pubsub()
-pubsub.subscribe("market_data")
+stream_name = "market:ticks"
+last_id = "$"
 
-print("Waiting for market data...")
+print(f"Waiting for market data from stream: {stream_name}")
 
-for message in pubsub.listen():
-    if message["type"] == "message":
-        print("Recived:", message["data"])
+while True:
+    messages = redis_client.xread(
+        {stream_name: last_id},
+        count=10,
+        block=5000,
+    )
+
+    if not messages:
+        time.sleep(1)
+        continue
+
+    for _stream, stream_messages in messages:
+        for message_id, fields in stream_messages:
+            last_id = message_id
+            print("Received:", fields.get("payload", fields))

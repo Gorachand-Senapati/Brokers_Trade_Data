@@ -53,10 +53,10 @@ def on_trade(response): #response contains the data that CoinDCX sends you.
     }
     # print(payload)
 
-    #send payload to Redis
-    redis_client.publish(
-        "market_data", #redis channel name
-        json.dumps(payload) #conver pyton into json string
+    # send payload to Redis Stream for candle builder
+    redis_client.xadd(
+        "market:ticks",
+        {"payload": json.dumps(payload)}
     )
     print("Published: ", payload)
 

@@ -1,6 +1,6 @@
 # CoinDCX Market Data
 
-A Python-based market data service that connects to the CoinDCX WebSocket, receives live trade data for dynamically selected symbols, normalizes the data into a common payload format, and publishes the data through Redis Pub/Sub for further processing.
+A Python-based market data service that connects to the CoinDCX WebSocket, receives live trade data for dynamically selected symbols, normalizes the data into a common payload format, and writes the data to a Redis Stream for further processing.
 
 ## Features
 
@@ -10,7 +10,7 @@ A Python-based market data service that connects to the CoinDCX WebSocket, recei
 * Receives live trade data continuously.
 * Converts CoinDCX trade data into a normalized payload.
 * Converts trade timestamps to IST.
-* Publishes normalized market data through Redis Pub/Sub.
+* Writes normalized market data to a Redis Stream.
 * Redis runs through Docker.
 
 ## Data Flow
@@ -22,14 +22,14 @@ Live Trade Data
        ↓
 Normalize Payload
        ↓
-Redis Pub/Sub
+Redis Stream: market:ticks
        ↓
 Candle Builder / Other Consumers
 ```
 
 ## Payload Format
 
-The service publishes market data in the following format:
+The service writes market data in the following format:
 
 ```json
 {
@@ -155,7 +155,7 @@ Published: {
 
 ## Redis Subscriber
 
-A test subscriber is included to verify that market data is successfully published to Redis.
+A test subscriber is included to verify that market data is successfully written to Redis.
 
 Run:
 
@@ -163,10 +163,10 @@ Run:
 python subscriber.py
 ```
 
-The subscriber listens to the Redis channel:
+The subscriber reads from the Redis Stream:
 
 ```text
-market_data
+market:ticks
 ```
 
 Example:
@@ -199,15 +199,15 @@ coindcx-market-data/
 * `.gitignore` — Files and folders excluded from Git.
 * `README.md` — Project documentation.
 
-## Redis Channel
+## Redis Stream
 
 Market data is published to:
 
 ```text
-market_data
+market:ticks
 ```
 
-Consumers can subscribe to this channel to process the live trade stream.
+Consumers can read from this stream to process the live trade data.
 
 ## Dependencies
 
