@@ -1,0 +1,12 @@
+brokers:
+  - coindcx
+  - binance
+
+symbols:
+  - BTC
+  - ETH
+  - SOL
+
+priority:
+  - binance
+  - coindcx
