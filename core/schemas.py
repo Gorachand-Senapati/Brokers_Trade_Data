@@ -4,6 +4,7 @@ from dataclasses import dataclass
 class MarketTick:
     symbol:str
     ltt: str
+    received_at: str
     ltp: float
     volume: float
     provider: str

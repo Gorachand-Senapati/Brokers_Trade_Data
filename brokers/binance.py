@@ -50,12 +50,16 @@ class BinanceBroker(BaseBroker):
             data["T"] / 1000,
             tz=ZoneInfo("Asia/Kolkata")
         )
-
+        received_at = datetime.now(ZoneInfo("Asia/Kolkata"))
         tick = MarketTick(
             symbol=data["s"],
             ltt=ist_time.strftime(
                 "%Y-%m-%d %H:%M:%S.%f"
             )[:-3] + " IST",
+            received_at=received_at.strftime(
+                "%Y-%m-%d %H:%M:%S.%f"
+            )[:-3] + " IST",
+            
             ltp=float(data["p"]),
             volume=float(data["q"]),
             provider="Binance"

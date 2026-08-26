@@ -11,6 +11,7 @@ def publish_tick(tick):
     payload = {
         "symbol": tick.symbol,
         "ltt": tick.ltt,
+        "received_at": tick.received_at,
         "ltp": tick.ltp,
         "volume": tick.volume,
         "provider": tick.provider

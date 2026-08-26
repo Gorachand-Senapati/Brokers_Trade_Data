@@ -58,11 +58,19 @@ class CoinDCXBroker(BaseBroker):
                 tz=ZoneInfo("Asia/Kolkata")
             )
 
+            symbol=data["s"]
+            symbol = symbol.replace("B-", "").replace("_", "")
+            received_at = datetime.now(ZoneInfo("Asia/Kolkata"))                 
+
             tick = MarketTick(
-                symbol=data["s"],
+                symbol=symbol,
                 ltt=ist_time.strftime(
                     "%Y-%m-%d %H:%M:%S.%f"
                 )[:-3] + " IST",
+                received_at=received_at.strftime(
+                    "%Y-%m-%d %H:%M:%S.%f"
+                    
+                )[:-3] + " IST ",
                 ltp=float(data["p"]),
                 volume=float(data["q"]),
                 provider="CoinDCX"
