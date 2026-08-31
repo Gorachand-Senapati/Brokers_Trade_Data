@@ -8,7 +8,7 @@ BROKERS = {
 }
 
 
-def create_broker(name, symbols, on_tick=None,on_status=None):
+def create_broker(name, symbols,broker_config, on_tick=None,on_status=None):
 
     broker_class = BROKERS.get(name.lower())
 
@@ -17,6 +17,7 @@ def create_broker(name, symbols, on_tick=None,on_status=None):
 
     return broker_class(
         symbols,
+        websocket_url= broker_config["websocket_url"],
         on_tick=on_tick,
         on_status=on_status
     )

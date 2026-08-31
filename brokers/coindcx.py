@@ -10,14 +10,15 @@ from brokers.base import BaseBroker
 from core.schemas import MarketTick
 
 
+
 class CoinDCXBroker(BaseBroker):
 
-    def __init__(self, symbols, on_tick=None, on_status=None):
+    def __init__(self, symbols,websocket_url, on_tick=None, on_status=None):
         super().__init__(symbols, on_tick=on_tick, on_status=on_status)
 
         self.sio = socketio.Client()
 
-        self.socket_url = "wss://stream-spot.coindcx.com"
+        self.socket_url = websocket_url
 
         self.channels = [
             f"B-{symbol}_USDT@trades"

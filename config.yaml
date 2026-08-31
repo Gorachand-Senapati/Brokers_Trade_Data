@@ -1,11 +1,17 @@
 brokers:
-  - coindcx
-  - binance
+
+  coindcx:
+    websocket_url: "wss://stream-spot.coindcx.com"
+
+  binance:
+    websocket_url: "wss://stream.binance.com:9443/ws"
+
 
 symbols:
   - BTC
   - ETH
   - SOL
+
 
 priority:
   - binance

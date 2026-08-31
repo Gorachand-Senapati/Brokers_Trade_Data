@@ -6,6 +6,7 @@ from core.redis_publisher import publish_tick
 class FeedManager:
 
     def __init__(self, config):
+        self.config = config
         self.brokers = config["brokers"]
         self.symbols = config["symbols"]
 
@@ -26,6 +27,7 @@ class FeedManager:
             broker = create_broker(
                 broker_name,
                 self.symbols,
+                self.config["brokers"][broker_name],
                 on_tick=publish_tick,
                 on_status=self.update_status
             )

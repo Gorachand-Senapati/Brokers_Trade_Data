@@ -10,10 +10,10 @@ from core.schemas import MarketTick
 
 class BinanceBroker(BaseBroker):
 
-    def __init__(self, symbols, on_tick=None, on_status=None):
+    def __init__(self, symbols,websocket_url, on_tick=None, on_status=None):
         super().__init__(symbols, on_tick=on_tick, on_status=on_status)
 
-        self.socket_url = "wss://stream.binance.com:9443/ws"
+        self.socket_url = websocket_url
 
         self.streams = [
             f"{symbol.lower()}usdt@trade"
